@@ -1,3 +1,4 @@
+import { SignIn, SignUp, UserButton } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -47,7 +48,7 @@ const Home: NextPage = () => {
             <p className="text-2xl text-white">
               {hello.data ? hello.data.greeting : "Loading tRPC query..."}
             </p>
-            <AuthShowcase />
+            <UserButton afterSignOutUrl="/signin"/>
           </div>
         </div>
       </main>
