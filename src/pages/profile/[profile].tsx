@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 
-function profile() {
+function Profile() {
   const router = useRouter()
 
   return (
@@ -11,4 +11,4 @@ function profile() {
   )
 }
 
-export default profile
+export default Profile
