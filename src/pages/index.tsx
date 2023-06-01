@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
@@ -11,7 +12,8 @@ const Home: NextPage = () => {
   const {data} = api.example.getAllPost.useQuery()
   const {data: post} = api.example.getAllPost.useQuery()
   const [tab, setTab] = useState(0)
-  console.log(post)
+  const router = useRouter()
+  console.log(user)
   return (
     <>
       <Head>
@@ -22,7 +24,10 @@ const Home: NextPage = () => {
       <main className="max-w-[1200px] mx-auto p-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">T3 Blog App</h1>
-          <UserButton afterSignOutUrl="/"/>
+          <div className="flex items-center gap-2">
+            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id}`)}>{user?.firstName}</h1>
+            <UserButton afterSignOutUrl="/"/>
+          </div>
         </div>
         <ul className="flex mt-12 gap-2">
           <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 && "text-white bg-white/10"}`} onClick={() => setTab(0)}>For You</li>
@@ -31,14 +36,14 @@ const Home: NextPage = () => {
         {
           tab == 0 ?
           [1,2,3,4,5].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]">
+            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" onClick={() => router.push(`/post/${el}`)}>
               <h1>Title</h1>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
             </div>
           ))
           :
           [1,2,3].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]">
+            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" onClick={() => router.push(`/post/${el}`)}>
               <h1>Title</h1>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
             </div>
