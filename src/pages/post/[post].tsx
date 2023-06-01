@@ -1,8 +1,10 @@
+import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 function Post() {
   const router = useRouter()
+  const {user} = useUser()
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
@@ -18,7 +20,10 @@ function Post() {
           </div>
         ))
       }
-      <input type="text" placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' />
+      <div className="flex items-center my-6">
+        <img src={user?.profileImageUrl} alt="image" className='w-[45px] h-[45px] rounded-full mr-2' />
+        <input type="text" placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' />
+      </div>
     </main>
   )
 }
