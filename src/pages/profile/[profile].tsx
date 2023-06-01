@@ -1,12 +1,47 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 function Profile() {
   const router = useRouter()
+  const [tab, setTab] = useState(0)
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
-      <div>profile id: {router.query.profile}</div>
+      <button onClick={() => router.back()}>Go Back</button>
+      <div className='bg-[#303134] p-6 rounded-md mt-12'>
+        <ul className='flex flex-col gap-2'>
+          <li>Name: TEST</li>
+          <li>Name: TEST</li>
+          <li>Name: TEST</li>
+          <li>Name: TEST</li>
+          <li>Name: TEST</li>
+        </ul>
+      </div>
+      <ul className="flex my-4 gap-2">
+        <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>Create Post</li>
+        <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>My Posts</li>
+      </ul>
+      {
+        tab == 0 ?
+        <>
+          <div className="border border-dashed border-gray-500 relative grid place-items-center rounded-md">
+            <input type="file" className="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50" onChange={(e) => console.log(e)} />
+            <div className="text-center absolute top-50 right-0 left-0 m-auto">
+              <p className="">Upload Image</p>
+            </div>
+          </div>
+          <textarea placeholder='Description' className='border border-gray-500 rounded-md bg-inherit w-full my-4 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+        </>
+        : 
+        [1,2,3,4,5].map(el => (
+          <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
+            <h1>Title</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
+          </div>
+        ))
+        
+      }
+      
     </main>
   )
 }
