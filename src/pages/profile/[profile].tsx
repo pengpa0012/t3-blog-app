@@ -1,21 +1,18 @@
+import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
+  const {user} = useUser()
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
-      <div className='bg-[#303134] p-6 rounded-md mt-12'>
-        <ul className='flex flex-col gap-2'>
-          <li>Name: TEST</li>
-          <li>Name: TEST</li>
-          <li>Name: TEST</li>
-          <li>Name: TEST</li>
-          <li>Name: TEST</li>
-        </ul>
+      <div className='bg-[#303134] p-8 rounded-md mt-12 flex flex-col items-center'>
+        <img src={user?.profileImageUrl} alt="image" className='rounded-full w-[200px] h-[200px] mb-4' />
+        <h1 className="text-3xl">{user?.fullName}</h1>
       </div>
       <ul className="flex my-4 gap-2">
         <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>Create Post</li>
