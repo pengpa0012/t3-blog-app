@@ -1,20 +1,16 @@
-import { SignIn, SignUp, UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { user } = useUser()
-  const {data} = api.example.getAllPost.useQuery()
   const [tab, setTab] = useState(0)
   const router = useRouter()
 
   console.log(user)
-  
+
   return (
     <>
       <Head>
@@ -26,25 +22,25 @@ const Home: NextPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">T3 Blog App</h1>
           <div className="flex items-center gap-2">
-            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id}`)}>{user?.firstName}</h1>
+            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
             <UserButton afterSignOutUrl="/"/>
           </div>
         </div>
         <ul className="flex mt-12 gap-2">
-          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 && "text-white bg-white/10"}`} onClick={() => setTab(0)}>For You</li>
-          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 && "text-white bg-white/10"}`} onClick={() => setTab(1)}>Following</li>
+          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>
+          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li>
         </ul>
         {
           tab == 0 ?
           [1,2,3,4,5].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" onClick={() => router.push(`/post/${el}`)}>
+            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
               <h1>Title</h1>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
             </div>
           ))
           :
           [1,2,3].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" onClick={() => router.push(`/post/${el}`)}>
+            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
               <h1>Title</h1>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
             </div>
@@ -56,27 +52,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined },
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-};
