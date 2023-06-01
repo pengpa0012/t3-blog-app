@@ -14,11 +14,17 @@ export const exampleRouter = createTRPCRouter({
       };
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
+  getAllPost: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.post.findMany();
   }),
+
+  // getPost: publicProcedure.query(({ ctx, input }) => {
+  //   return ctx.prisma.post.findFirst({where: {id: input.id}});
+  // }),
 
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),
 });
+
+// Create a post and query it
