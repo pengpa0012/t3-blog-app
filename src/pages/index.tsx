@@ -10,10 +10,11 @@ import { api } from "~/utils/api";
 const Home: NextPage = () => {
   const { user } = useUser()
   const {data} = api.example.getAllPost.useQuery()
-  const {data: post} = api.example.getAllPost.useQuery()
   const [tab, setTab] = useState(0)
   const router = useRouter()
+
   console.log(user)
+  
   return (
     <>
       <Head>
