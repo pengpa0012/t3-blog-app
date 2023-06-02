@@ -7,7 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
-  // createPost
   // deletePost
   // author  User @relation(fields: [authorId], references: [id])
   // authorId    String 
@@ -20,9 +19,8 @@ export const postRouter = createTRPCRouter({
     title: z.string(),
     description: z.string()
   })).mutation(async ({ ctx, input }) => {
-    const {title, description} = input
-    const {user} = useUser()
-    const result = await ctx.prisma.post.create({ data: {author: user?.id, title, description} as Prisma.PostCreateInput})
+    const {authorId, title, description} = input
+    const result = await ctx.prisma.post.create({ data: {authorId, title, description}})
 
     return {
       post_created: result,
