@@ -9,9 +9,8 @@ const Home: NextPage = () => {
   const { user } = useUser()
   const [tab, setTab] = useState(0)
   const router = useRouter()
-  const {data} = api.example.getPost.useQuery({id: "123"})
-
-  console.log(data)
+  // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
+  const {data: allPost, isLoading} = api.example.getAllPost.useQuery()
 
   return (
     <>
@@ -34,17 +33,17 @@ const Home: NextPage = () => {
         </ul>
         {
           tab == 0 ?
-          [1,2,3,4,5].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
-              <h1>Title</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
+          allPost?.map(el => (
+            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6] ${isLoading && "bg-white"}`} key={el.id} onClick={() => router.push(`/post/${el.id}`)}>
+              <h1>{el.title}</h1>
+              <p>{el.description}</p>
             </div>
           ))
           :
-          [1,2,3].map(el => (
-            <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
-              <h1>Title</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
+          allPost?.map(el => (
+            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6] ${isLoading && "bg-white"}`} key={el.id} onClick={() => router.push(`/post/${el.id}`)}>
+              <h1>{el.title}</h1>
+              <p>{el.description}</p>
             </div>
           ))
         }
