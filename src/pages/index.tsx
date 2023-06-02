@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">T3 Blog App</h1>
           <div className="flex items-center gap-2">
-            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id}`)}>{user?.firstName}</h1>
+            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
             <UserButton afterSignOutUrl="/"/>
           </div>
         </div>
@@ -43,14 +43,14 @@ const Home: NextPage = () => {
           :
           tab == 0 ?
           allPost?.map(el => (
-            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id}`)}>
+            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
               <h1>{el.title}</h1>
               <p>{el.description}</p>
             </div>
           ))
           :
           allPost?.map(el => (
-            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id}`)}>
+            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
               <h1>{el.title}</h1>
               <p>{el.description}</p>
             </div>

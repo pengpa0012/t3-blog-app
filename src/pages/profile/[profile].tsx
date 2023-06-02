@@ -32,7 +32,7 @@ function Profile() {
         </>
         : 
         [1,2,3,4,5].map(el => (
-          <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el}`)}>
+          <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el || ""}`)}>
             <h1>Title</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
           </div>
