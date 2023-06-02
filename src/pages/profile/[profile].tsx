@@ -28,6 +28,7 @@ function Profile() {
             </div>
           </div>
           <textarea placeholder='Description' className='border border-gray-500 rounded-md bg-inherit w-full my-4 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+          <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
         </>
         : 
         [1,2,3,4,5].map(el => (

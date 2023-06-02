@@ -3,13 +3,15 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { user } = useUser()
   const [tab, setTab] = useState(0)
   const router = useRouter()
+  const {data} = api.example.getPost.useQuery({id: "123"})
 
-  console.log(user)
+  console.log(data)
 
   return (
     <>
