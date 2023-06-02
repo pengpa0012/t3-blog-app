@@ -33,7 +33,8 @@ const config = {
       {
         "checksVoidReturn": false
       }
-    ]
+    ],
+    "@typescript-eslint/restrict-template-expressions": "off"
   },
 };
 
