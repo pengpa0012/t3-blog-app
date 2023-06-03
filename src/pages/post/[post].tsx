@@ -11,21 +11,19 @@ function Post() {
   const router = useRouter()
   const {user} = useUser()
   const {data} = api.post.getPost.useQuery({id: router.query.post as string}, {enabled: router.isReady})
-  const {data: allComments} = api.comment.getAllComment.useQuery()
-  console.log(allComments)
+  const {data: allComments} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
   const mutation = api.comment.createComment.useMutation()
 
-  const handleComment = (e: any) => {
-    if(e.key != "Enter" || /^\s*$/.test(e.target.value)) return
-
+  const handleComment = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(e.key != "Enter" || /^\s*$/.test(e.currentTarget.value)) return
     mutation.mutate({
       authorId: user?.id as string,
       postId: router.query.post as string,
-      comment: e.target.value
+      comment: e.currentTarget.value
     },
     {
       onSuccess: (data) => {
-        e.target.value = ""
+        e.currentTarget.value = ""
       }
     })
   }

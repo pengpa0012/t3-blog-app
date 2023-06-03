@@ -24,8 +24,8 @@ export const commentRouter = createTRPCRouter({
     }
   }),
 
-  getAllComment: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.comment.findMany({ orderBy: [{ createdAt: "desc" }] });
+  getAllComment: protectedProcedure.input(z.object({ postId: z.string()})).query(({ ctx, input }) => {
+    return ctx.prisma.comment.findMany({ where: {postId: input.postId }, orderBy: [{ createdAt: "desc" }] });
   }),
 
 });
