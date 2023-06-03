@@ -47,16 +47,20 @@ const Home: NextPage = () => {
           tab == 0 ?
           allPost?.posts.map(el => (
             <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
-              <h1>{el.title}</h1>
-              <h1>{el.authorId}</h1>
+              <div className="flex justify-between items-center mb-4">
+                <h1>{el.title}</h1>
+                <h1>{dayjs(el.createdAt).fromNow()}</h1>
+              </div>
               <p>{el.description}</p>
             </div>
           )) 
           :
           allPost?.posts.map(el => (
             <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
-              <h1>{el.title}</h1>
-              <h1>{el.authorId}</h1>
+              <div className="flex justify-between items-center mb-4">
+                <h1>{el.title}</h1>
+                <h1>{dayjs(el.createdAt).fromNow()}</h1>
+              </div>
               <p>{el.description}</p>
             </div>
           ))

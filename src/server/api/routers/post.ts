@@ -15,7 +15,7 @@ export const postRouter = createTRPCRouter({
   createPost: protectedProcedure.input(z.object({
     authorId: z.string(),
     title: z.string(),
-    image: z.string().url(),
+    image: z.string(),
     description: z.string()
   })).mutation(async ({ ctx, input }) => {
     const {authorId, title, image, description} = input
