@@ -31,11 +31,12 @@ const Home: NextPage = () => {
           </div>
         </div>
         <ul className="flex mt-12 gap-2">
-          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>
-          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li>
+          {/* <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>
+          <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li> */}
+          <li className={`text-[#bdc1c6] text-2xl cursor-pointer rounded-md`}>My Feed</li>
         </ul>
         {
-          isLoading ? 
+          isLoading ?
           <div role="status">
             <svg aria-hidden="true" className="w-8 h-8 mx-auto text-gray-200 my-20 animate-spin dark:text-gray-600 fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -43,17 +44,6 @@ const Home: NextPage = () => {
             </svg>
             <span className="sr-only">Loading...</span>
           </div>
-          :
-          tab == 0 ?
-          allPost?.posts.map(el => (
-            <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
-              <div className="flex justify-between items-center mb-4">
-                <h1>{el.title}</h1>
-                <h1>{dayjs(el.createdAt).fromNow()}</h1>
-              </div>
-              <p>{el.description}</p>
-            </div>
-          )) 
           :
           allPost?.posts.map(el => (
             <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>

@@ -2,7 +2,7 @@ import { useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -11,19 +11,23 @@ function Post() {
   const router = useRouter()
   const {user} = useUser()
   const {data} = api.post.getPost.useQuery({id: router.query.post as string}, {enabled: router.isReady})
-  const {data: allComments} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
+  const {data: allComments, refetch} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
+  const [text, setText] = useState("")
   const mutation = api.comment.createComment.useMutation()
 
+ 
+  
   const handleComment = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.key != "Enter" || /^\s*$/.test(e.currentTarget.value)) return
+    if(e.key != "Enter" || /^\s*$/.test(text)) return
     mutation.mutate({
       authorId: user?.id as string,
       postId: router.query.post as string,
-      comment: e.currentTarget.value
+      comment: text
     },
     {
       onSuccess: (data) => {
-        e.currentTarget.value = ""
+        refetch()
+        setText("")
       }
     })
   }
@@ -53,7 +57,7 @@ function Post() {
       }
       <div className="flex items-center my-6">
         <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
-        <input type="text" placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' onKeyDown={handleComment} />
+        <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' onKeyDown={handleComment} />
       </div>
     </main>
   )
