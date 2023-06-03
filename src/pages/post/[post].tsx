@@ -24,7 +24,7 @@ function Post() {
         ))
       }
       <div className="flex items-center my-6">
-        <img src={user?.profileImageUrl} alt="image" className='w-[45px] h-[45px] rounded-full mr-2' />
+        <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
         <input type="text" placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' />
       </div>
     </main>

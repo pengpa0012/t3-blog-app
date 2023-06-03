@@ -2,7 +2,7 @@ import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 // import { api } from '~/utils/api'
 
@@ -13,7 +13,7 @@ function Profile() {
   const { register, handleSubmit } = useForm()
   const mutation = api.post.createPost.useMutation()
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FieldValues) => {
     mutation.mutateAsync({
       title: data.title,
       description: data.description,
@@ -23,7 +23,8 @@ function Profile() {
     {
       onSuccess: (data) => {
         console.log(data)
-      }
+      },
+      onError: console.error
     })
   }
   
