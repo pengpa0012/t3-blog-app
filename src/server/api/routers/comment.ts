@@ -4,7 +4,7 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-export const postRouter = createTRPCRouter({
+export const commentRouter = createTRPCRouter({
   // createComment
   // deleteComment
 
@@ -25,7 +25,7 @@ export const postRouter = createTRPCRouter({
   }),
 
   getAllComment: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.comment.findMany();
+    return ctx.prisma.comment.findMany({ orderBy: [{ createdAt: "desc" }] });
   }),
 
 });

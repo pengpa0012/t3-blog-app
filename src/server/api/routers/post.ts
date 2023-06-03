@@ -36,7 +36,7 @@ export const postRouter = createTRPCRouter({
     //     image: user.profileImageUrl
     //   }
     // })
-    const posts = await ctx.prisma.post.findMany({ orderBy: [{ createdAt: "desc" }]  })
+    const posts = await ctx.prisma.post.findMany({ orderBy: [{ createdAt: "desc" }] })
     return {
       posts
     }
