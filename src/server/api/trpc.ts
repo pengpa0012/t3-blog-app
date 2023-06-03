@@ -51,7 +51,7 @@ import { prisma } from "~/server/db";
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
   // const { req, res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
@@ -61,7 +61,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   //   session,
   // });
 
-  const { req, res } = opts
+  const { req } = opts
 
   const user = getAuth(req)
 
