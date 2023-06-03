@@ -19,13 +19,9 @@ function Profile() {
       description: data.description,
       authorId: user?.id ?? "",
       image: "https://via.placeholder.com/1280x500"
-    },
-    {
-      onSuccess: (data) => {
-        console.log(data)
-      },
-      onError: console.error
     })
+    .then(data => console.log(data))
+    .catch(console.error)
   }
   
 
