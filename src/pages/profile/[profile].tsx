@@ -2,7 +2,7 @@ import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 // import { api } from '~/utils/api'
 
@@ -16,7 +16,7 @@ function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
   const {user} = useUser()
-  const { register, handleSubmit } = useForm<FormValues>()
+  const { register, handleSubmit, reset } = useForm<FormValues>()
   const mutation = api.post.createPost.useMutation()
 
   const onSubmit = (data: FormValues) => {
@@ -26,8 +26,8 @@ function Profile() {
       authorId: user?.id ?? "",
       image: "https://via.placeholder.com/1280x500"
     })
-    .then(data => console.log(data))
     .catch(console.error)
+    .finally(() => reset())
   }
   
 

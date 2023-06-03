@@ -25,10 +25,11 @@ function Post() {
       comment: text
     },
     {
-      onSuccess: (data) => {
-        refetch()
+      onSettled: () => {
         setText("")
-      }
+        refetch()
+      },
+      onError: console.error
     })
   }
 

@@ -10,7 +10,7 @@ dayjs.extend(relativeTime);
 
 const Home: NextPage = () => {
   const { user } = useUser()
-  const [tab, setTab] = useState(0)
+  // const [tab, setTab] = useState(0)
   const router = useRouter()
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
