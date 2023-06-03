@@ -6,14 +6,20 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 // import { api } from '~/utils/api'
 
+type FormValues = {
+  title: string
+  image: File
+  description: string
+};
+
 function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
   const {user} = useUser()
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm<FormValues>()
   const mutation = api.post.createPost.useMutation()
 
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = (data: FormValues) => {
     mutation.mutateAsync({
       title: data.title,
       description: data.description,
