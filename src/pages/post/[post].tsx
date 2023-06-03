@@ -19,22 +19,18 @@ function Post() {
   
   const handleComment = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key != "Enter" || /^\s*$/.test(text)) return
-    try {
-      mutation.mutate({
-        authorId: user?.id as string,
-        postId: router.query.post as string,
-        comment: text
+    mutation.mutate({
+      authorId: user?.id as string,
+      postId: router.query.post as string,
+      comment: text
+    },
+    {
+      onSettled: () => {
+        setText("")
+        refetch()
       },
-      {
-        onSettled: () => {
-          setText("")
-          refetch()
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-   
+      onError: console.error
+    })
   }
 
   return (
