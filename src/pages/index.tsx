@@ -11,21 +11,6 @@ const Home: NextPage = () => {
   const router = useRouter()
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
-  const mutation = api.post.createPost.useMutation()
-  
-
-  const handleClick = async () => {
-    try {
-      await mutation.mutateAsync({
-        title: 'PROTECTED TITLE',
-        description: 'PROTECTED DESCRIPTION',
-        authorId: user?.id!,
-      });
-      console.log('Post created successfully!');
-    } catch (error) {
-      console.error('Failed to create post:', error);
-    }
-  };
 
   return (
     <>
@@ -42,7 +27,6 @@ const Home: NextPage = () => {
             <UserButton afterSignOutUrl="/"/>
           </div>
         </div>
-        <button onClick={handleClick}>click to post</button>
         <ul className="flex mt-12 gap-2">
           <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>
           <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li>

@@ -40,7 +40,8 @@ const config = {
         allowNumber: true,  
         allowBoolean: true,
       },
-    ]
+    ],
+    '@typescript-eslint/no-non-null-assertion': 'off'
   },
 };
 
