@@ -7,6 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
+import { getAuth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
@@ -23,9 +24,9 @@ import { prisma } from "~/server/db";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-type CreateContextOptions = {
-  session: Session | null;
-};
+// type CreateContextOptions = {
+//   session: Session | null;
+// };
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -37,12 +38,12 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return {
-    session: opts.session,
-    prisma,
-  };
-};
+// const createInnerTRPCContext = (opts: CreateContextOptions) => {
+//   return {
+//     session: opts.session,
+//     prisma,
+//   };
+// };
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -51,14 +52,23 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
+  // const { req, res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  // const session = await getServerAuthSession({ req, res });
 
-  return createInnerTRPCContext({
-    session,
-  });
+  // return createInnerTRPCContext({
+  //   session,
+  // });
+
+  const { req, res } = opts
+
+  const user = getAuth(req)
+
+  return {
+    prisma,
+    session: user
+  }
 };
 
 /**
