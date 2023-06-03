@@ -15,11 +15,12 @@ export const postRouter = createTRPCRouter({
   createPost: protectedProcedure.input(z.object({
     authorId: z.string(),
     title: z.string(),
+    image: z.string().url(),
     description: z.string()
   })).mutation(async ({ ctx, input }) => {
-    const {authorId, title, description} = input
+    const {authorId, title, image, description} = input
     // const findUser = await clerkClient.users.getUserList().
-    const result = await ctx.prisma.post.create({ data: {authorId, title, description}})
+    const result = await ctx.prisma.post.create({ data: {authorId, title, image, description}})
 
     return {
       post_created: result,
