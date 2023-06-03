@@ -1,9 +1,7 @@
-import { clerkClient } from "@clerk/nextjs/server";
-import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
@@ -14,7 +12,7 @@ export const postRouter = createTRPCRouter({
   // comments Comment[]
   // description String
 
-  createPost: publicProcedure.input(z.object({
+  createPost: protectedProcedure.input(z.object({
     authorId: z.string(),
     title: z.string(),
     description: z.string()
@@ -29,7 +27,7 @@ export const postRouter = createTRPCRouter({
     }
   }),
 
-  getAllPost: publicProcedure.query(async({ ctx }) => {
+  getAllPost: protectedProcedure.query(async({ ctx }) => {
     // const users = (await clerkClient.users.getUserList()).map(user => {
     //   return {
     //     name: user.firstName,
@@ -43,7 +41,7 @@ export const postRouter = createTRPCRouter({
     }
   }),
 
-  getPost: publicProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
+  getPost: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
     const result = await ctx.prisma.post.findMany({where: {id: input.id}});
     return result
   }),

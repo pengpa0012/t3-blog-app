@@ -1,13 +1,13 @@
 import {
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
   // createComment
   // deleteComment
 
-  getAllComment: publicProcedure.query(({ ctx }) => {
+  getAllComment: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.comment.findMany();
   }),
 

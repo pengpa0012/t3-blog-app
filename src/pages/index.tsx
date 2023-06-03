@@ -17,8 +17,8 @@ const Home: NextPage = () => {
   const handleClick = async () => {
     try {
       await mutation.mutateAsync({
-        title: 'test 1',
-        description: 'Test 1',
+        title: 'PROTECTED TITLE',
+        description: 'PROTECTED DESCRIPTION',
         authorId: user?.id!,
       });
       console.log('Post created successfully!');
@@ -61,13 +61,15 @@ const Home: NextPage = () => {
           allPost?.posts.map(el => (
             <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
               <h1>{el.title}</h1>
+              <h1>{el.authorId}</h1>
               <p>{el.description}</p>
             </div>
-          ))
+          )) 
           :
           allPost?.posts.map(el => (
             <div className={`p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
               <h1>{el.title}</h1>
+              <h1>{el.authorId}</h1>
               <p>{el.description}</p>
             </div>
           ))
