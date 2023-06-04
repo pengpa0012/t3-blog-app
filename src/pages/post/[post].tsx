@@ -19,7 +19,7 @@ function Post() {
   
   const handleComment = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key != "Enter" || /^\s*$/.test(text)) return
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    
     mutation.mutate({
       authorId: user?.id as string,
       postId: router.query.post as string,
