@@ -38,22 +38,26 @@ function Post() {
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
       <div className="w-full h-[500px] relative my-4">
-        <Image src={data?.image ?? ""} className="rounded-md" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
+        <Image src={data?.result?.image ?? ""} className="rounded-md" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
       </div>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl">{data?.title}</h1>
-        <h1>{dayjs(data?.createdAt).fromNow()}</h1>
+        <h1 className="text-3xl">{data?.result?.title}</h1>
+        <p>{dayjs(data?.result?.createdAt).fromNow()}</p>
       </div>
-      <p className="text-lg text-gray-300 my-4">{data?.description}</p>
+      <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
+      <p className="text-lg text-gray-300 my-4">{data?.result?.description}</p>
       <h3 className="text-xl mt-20">Comments</h3>
       {
-        allComments?.map(el => (
-          <div className='bg-[#303134] rounded-md my-4 text-[#bdc1c6] p-2' key={el.id}>
-            <div className="flex justify-between items-center mb-4">
-              <h4 className="text-lg">{el.authorId}</h4>
-              <h1>{dayjs(el.createdAt).fromNow()}</h1>
+        allComments?.result.map(el => (
+          <div className='flex items-center' key={el.id}>
+            <Image src={allComments.users.find(user => user.id == el.authorId)?.image ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
+            <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
+              <div className="flex justify-between items-center mb-1">
+                <h4 className="text-s">{allComments.users.find(user => user.id == el.authorId)?.name}</h4>
+                <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
+              </div>
+              <p className='text-md'>{el.comment}</p>
             </div>
-            <p>{el.comment}</p>
           </div>
         ))
       }

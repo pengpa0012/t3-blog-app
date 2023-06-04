@@ -1,8 +1,11 @@
+import { clerkClient } from "@clerk/nextjs";
 import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { mapUser } from "~/utils/helper";
+// When querying data if you need to display the user, just select all the user on clerkClient
 
 export const postRouter = createTRPCRouter({
   // deletePost
@@ -29,22 +32,27 @@ export const postRouter = createTRPCRouter({
   }),
 
   getAllPost: protectedProcedure.query(async({ ctx }) => {
-    // const users = (await clerkClient.users.getUserList()).map(user => {
-    //   return {
-    //     name: user.firstName,
-    //     email: user.emailAddresses,
-    //     image: user.profileImageUrl
-    //   }
-    // })
+    
+   
     const posts = await ctx.prisma.post.findMany({ orderBy: [{ createdAt: "desc" }] })
+    const users = (await clerkClient.users.getUserList()).filter(user => {
+      return posts.some(post => post.authorId === user.id)
+    }).map(mapUser)
+    
     return {
-      posts
+      posts,
+      users
     }
   }),
 
   getPost: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
-    const result = await ctx.prisma.post.findUnique({where: {id: input.id}});
-    return result
+    const result = await ctx.prisma.post.findUnique({where: {id: input.id}})
+
+    const users = (await clerkClient.users.getUserList()).filter(user => result?.authorId === user.id).map(mapUser)
+    return {
+      result,
+      users
+    }
   }),
 
 });

@@ -1,8 +1,10 @@
+import { clerkClient } from "@clerk/nextjs";
 import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { mapUser } from "~/utils/helper";
 
 export const commentRouter = createTRPCRouter({
   // createComment
@@ -24,8 +26,14 @@ export const commentRouter = createTRPCRouter({
     }
   }),
 
-  getAllComment: protectedProcedure.input(z.object({ postId: z.string()})).query(({ ctx, input }) => {
-    return ctx.prisma.comment.findMany({ where: {postId: input.postId }, orderBy: [{ createdAt: "desc" }] });
-  }),
+  getAllComment: protectedProcedure.input(z.object({ postId: z.string()})).query(async ({ ctx, input }) => {
+    const result = await ctx.prisma.comment.findMany({ where: {postId: input.postId }, orderBy: [{ createdAt: "desc" }] })
+    
+    const users = (await clerkClient.users.getUserList()).filter(user => result.some(comment => comment.authorId === user.id)).map(mapUser)
 
-});
+    return {
+      result,
+      users
+    }
+  })
+})
