@@ -1,10 +1,12 @@
 import { useUser } from '@clerk/nextjs'
+import dayjs from 'dayjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
-// import { api } from '~/utils/api'
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 type FormValues = {
   title: string
@@ -17,6 +19,7 @@ function Profile() {
   const [tab, setTab] = useState(0)
   const {user} = useUser()
   const { register, handleSubmit, reset } = useForm<FormValues>()
+  const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
 
   const onSubmit = (data: FormValues) => {
@@ -56,10 +59,13 @@ function Profile() {
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 
-        [1,2,3,4,5].map(el => (
-          <div className="p-4 bg-[#303134] rounded-md my-4 text-[#bdc1c6]" key={el} onClick={() => router.push(`/post/${el || ""}`)}>
-            <h1>Title</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime pariatur deleniti quisquam dolor corporis, iusto hic dolorem. Ipsum, vero expedita.</p>
+        data?.map(el => (
+          <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
+            <div className="flex justify-between items-center mb-1">
+              <h4 className="text-md">{el.title}</h4>
+              <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
+            </div>
+            <p className='text-sm'>{el.description}</p>
           </div>
         ))
         

@@ -32,8 +32,6 @@ export const postRouter = createTRPCRouter({
   }),
 
   getAllPost: protectedProcedure.query(async({ ctx }) => {
-    
-   
     const posts = await ctx.prisma.post.findMany({ orderBy: [{ createdAt: "desc" }] })
     const users = (await clerkClient.users.getUserList()).filter(user => {
       return posts.some(post => post.authorId === user.id)
@@ -54,5 +52,10 @@ export const postRouter = createTRPCRouter({
       users
     }
   }),
+
+  getUserPosts: protectedProcedure.input(z.object({ authorId: z.string() })).query(async ({ ctx, input }) => {
+    const result = await ctx.prisma.post.findMany({where: {authorId: input.authorId}, orderBy: [{ createdAt: "desc" }]})
+    return result
+  })
 
 });
