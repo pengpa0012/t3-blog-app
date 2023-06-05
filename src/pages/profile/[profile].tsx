@@ -7,6 +7,9 @@ import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
 import { bytesToSize } from '~/utils/helper'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { storage } from '~/utils/firebase'
+import { v4 } from "uuid";
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -26,18 +29,31 @@ function Profile() {
   const mutation = api.post.createPost.useMutation()
 
   const onSubmit = (data: FormValues) => {
-    // if(bytesToSize(image?.size!).includes("MB")) {
-    //   alert("Image size must be under 1MB")
-    //   return
-    // }
-    mutation.mutateAsync({
-      title: data.title,
-      description: data.description,
-      authorId: user?.id ?? "",
-      image: "https://via.placeholder.com/1280x500"
-    })
-    .catch(console.error)
-    .finally(() => reset())
+    if(!image) return alert("add image")
+    if(bytesToSize(image?.size!).includes("MB")) {
+      alert("Image size must be under 1MB")
+      return
+    }
+
+    const imageRef = ref(storage, `${image?.name + v4()}`);
+    uploadBytes(imageRef, image!).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        mutation.mutateAsync({
+          title: data.title,
+          description: data.description,
+          authorId: user?.id ?? "",
+          image: url ?? "https://via.placeholder.com/1280x500"
+        })
+        .catch(console.error)
+        .finally(() => {
+          setPreviewIMG("")
+          setImage(undefined)
+          reset()
+          alert("Post Created!")
+        })
+      });
+    });
+   
   }
 
   const onChangeProfile = (file: File | undefined) => {
