@@ -2,7 +2,7 @@ import { useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { InputHTMLAttributes, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -27,17 +27,19 @@ function Profile() {
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
+  const imgTypes = ["jpeg", "jpg", "png"]
 
   const onSubmit = (data: FormValues) => {
+    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return alert("upload the correct file type: (jpg, jpeg, png)")
     if(!image) return alert("add image")
-    if(bytesToSize(image?.size!).includes("MB")) {
+    if(bytesToSize(image.size).includes("MB")) {
       alert("Image size must be under 1MB")
       return
     }
 
     const imageRef = ref(storage, `${image?.name + v4()}`);
-    uploadBytes(imageRef, image!).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
+    uploadBytes(imageRef, image).then(async (snapshot) => {
+      await getDownloadURL(snapshot.ref).then((url) => {
         mutation.mutateAsync({
           title: data.title,
           description: data.description,
@@ -52,7 +54,7 @@ function Profile() {
           alert("Post Created!")
         })
       });
-    });
+    }).catch(console.error)
    
   }
 
