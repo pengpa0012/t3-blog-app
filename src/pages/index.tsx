@@ -36,7 +36,6 @@ const Home: NextPage = () => {
           <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li> */}
           <li className={`text-[#bdc1c6] text-2xl rounded-md`}>My Feed</li>
         </ul>
-        <div className="grid grid-cols-3 gap-4 my-4">
           {
             isLoading ?
             <div role="status">
@@ -47,22 +46,25 @@ const Home: NextPage = () => {
               <span className="sr-only">Loading...</span>
             </div>
             :
-            allPost?.posts.map(el => (
-              <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
-                <div>
-                  <div className="relative w-full h-[200px]">
-                    <Image src={el.image ?? ""} fill alt="image" className="rounded-md" />
+            <div className="grid grid-cols-3 gap-4 my-4">
+              {
+                allPost?.posts.map(el => (
+                  <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
+                    <div>
+                      <div className="relative w-full h-[200px]">
+                        <Image src={el.image ?? ""} fill alt="image" className="rounded-md" />
+                      </div>
+                      <div className="flex justify-between items-center my-4">
+                        <h3 className="text-2xl">{el.title}</h3>
+                        <p>{dayjs(el.createdAt).fromNow()}</p>
+                      </div>
+                      <p>{allPost?.users.find(user => user.id == el.authorId)?.name}</p>
+                    </div>              
                   </div>
-                  <div className="flex justify-between items-center my-4">
-                    <h3 className="text-2xl">{el.title}</h3>
-                    <p>{dayjs(el.createdAt).fromNow()}</p>
-                  </div>
-                  <p>{allPost.users.find(user => user.id == el.authorId)?.name}</p>
-                </div>              
-              </div>
-            ))
+                ))
+              }
+            </div>
           }
-        </div>
       </main>
     </>
   );

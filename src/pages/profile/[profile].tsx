@@ -2,10 +2,11 @@ import { useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { InputHTMLAttributes, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
+import { bytesToSize } from '~/utils/helper'
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -18,11 +19,17 @@ function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
   const {user} = useUser()
+  const [image, setImage] = useState<File | null>()
+  const [previewIMG, setPreviewIMG] = useState("")
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
 
   const onSubmit = (data: FormValues) => {
+    // if(bytesToSize(image?.size!).includes("MB")) {
+    //   alert("Image size must be under 1MB")
+    //   return
+    // }
     mutation.mutateAsync({
       title: data.title,
       description: data.description,
@@ -32,7 +39,13 @@ function Profile() {
     .catch(console.error)
     .finally(() => reset())
   }
-  
+
+  const onChangeProfile = (file: File | undefined) => {
+    if(file) {
+      const blob = window.URL.createObjectURL(file)
+      setPreviewIMG(blob)
+    }
+  }
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
@@ -49,10 +62,20 @@ function Profile() {
         tab == 0 ?
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="border border-dashed border-gray-500 relative grid place-items-center rounded-md mb-2">
-              <input type="file" {...register("image")} className="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50" onChange={(e) => console.log(e)} />
-              <div className="text-center absolute top-50 right-0 left-0 m-auto">
-                <p className="">Upload Image</p>
-              </div>
+              {previewIMG && 
+              <div className='w-full h-[400px]'>
+                <Image src={previewIMG} fill alt={'banner'} className='object-cover rounded-md' />
+              </div>}
+              {
+                !previewIMG &&
+                <>
+                  <input type="file" {...register("image")} className="cursor-pointer relative block opacity-0 w-full h-[400px] z-50" 
+                  onChange={(e) => onChangeProfile(e.target.files![0])} />
+                  <div className="text-center absolute top-50 right-0 left-0 m-auto">
+                    <p className="">Upload Image</p>
+                  </div>
+                </>
+              }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
             <textarea placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
