@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                       <div className="relative w-full h-[200px]">
                         <Image src={el.image ?? ""} fill alt="image" className="rounded-md" />
                       </div>
-                      <div className="flex justify-between items-center my-4">
+                      <div className="my-4">
                         <h3 className="text-2xl">{el.title}</h3>
                         <p>{dayjs(el.createdAt).fromNow()}</p>
                       </div>
