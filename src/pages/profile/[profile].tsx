@@ -28,14 +28,13 @@ function Profile() {
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
   const imgTypes = ["jpeg", "jpg", "png"]
+  // Add description min string length
+  // Add proper loader
 
   const onSubmit = (data: FormValues) => {
-    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return alert("upload the correct file type: (jpg, jpeg, png)")
     if(!image) return alert("add image")
-    if(bytesToSize(image.size).includes("MB")) {
-      alert("Image size must be under 1MB")
-      return
-    }
+    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return alert("upload the correct file type: (jpg, jpeg, png)")
+    if(bytesToSize(image.size).includes("MB")) return alert("Image size must be under 1MB")
 
     const imageRef = ref(storage, `${image?.name + v4()}`);
     uploadBytes(imageRef, image).then(async (snapshot) => {
@@ -90,7 +89,7 @@ function Profile() {
                 }}>
                   <span>x</span>
                 </div>
-                <Image src={previewIMG} fill alt={'banner'} className='object-cover rounded-md' />
+                <Image src={previewIMG ?? ""} fill alt={'banner'} className='object-cover rounded-md' />
               </div>}
               {
                 !previewIMG &&
@@ -104,7 +103,7 @@ function Profile() {
               }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
-            <textarea placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+            <textarea minLength={200} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 
