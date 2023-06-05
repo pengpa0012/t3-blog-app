@@ -8,7 +8,7 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["images.clerk.dev", "via.placeholder.com", "firebasestorage.googleapis.com"],
+    domains: ["images.clerk.dev", "via.placeholder.com"],
   },
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
