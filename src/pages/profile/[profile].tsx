@@ -44,9 +44,11 @@ function Profile() {
     if(file) {
       const blob = window.URL.createObjectURL(file)
       setPreviewIMG(blob)
+      setImage(file)
     }
   }
 
+  console.log(image)
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
@@ -64,6 +66,12 @@ function Profile() {
             <div className="border border-dashed border-gray-500 relative grid place-items-center rounded-md mb-2">
               {previewIMG && 
               <div className='w-full h-[400px]'>
+                <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={() => {
+                  setPreviewIMG("")
+                  setImage(undefined)
+                }}>
+                  <span>x</span>
+                </div>
                 <Image src={previewIMG} fill alt={'banner'} className='object-cover rounded-md' />
               </div>}
               {
