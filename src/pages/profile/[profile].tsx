@@ -51,7 +51,7 @@ function Profile() {
           setImage(undefined)
           reset()
         })
-        .catch((err) => Notiflix.Notify.failure(err))
+        .catch((err) => Notiflix.Notify.failure(err.message))
       });
     }).catch((err) => Notiflix.Notify.failure(err))
    
@@ -109,7 +109,7 @@ function Profile() {
               }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
-            <textarea minLength={100} maxLength={191} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+            <textarea placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 

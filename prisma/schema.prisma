@@ -63,7 +63,7 @@ model Post {
     id          String @id @default(cuid())
     author      User @relation(fields: [authorId], references: [id])
     authorId    String 
-    image       String?
+    image       String? @db.LongText
     createdAt   DateTime @default(now())
     title       String
     comments    Comment[]
@@ -77,7 +77,7 @@ model Comment {
     post        Post @relation(fields: [postId], references: [id])
     postId      String
     createdAt   DateTime @default(now())
-    comment     String
+    comment     String @db.LongText
     authorId    String 
     @@index([authorId])
     @@index([postId])
