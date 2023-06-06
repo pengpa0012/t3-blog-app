@@ -11,7 +11,7 @@ import { Loader } from "~/components/Loader";
 dayjs.extend(relativeTime);
 
 const Home: NextPage = () => {
-  const { user } = useUser()
+  const { user, isLoaded } = useUser()
   // const [tab, setTab] = useState(0)
   const router = useRouter()
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
@@ -27,10 +27,10 @@ const Home: NextPage = () => {
       <main className="max-w-[1200px] mx-auto p-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">T3 Blog App</h1>
-          <div className="flex items-center gap-2">
+          {isLoaded ? <div className="flex items-center gap-2">
             <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
             <UserButton afterSignOutUrl="/"/>
-          </div>
+          </div> : <Loader />}
         </div>
         <ul className="flex mt-12 gap-2">
           {/* <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>

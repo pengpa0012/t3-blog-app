@@ -67,7 +67,7 @@ model Post {
     createdAt   DateTime @default(now())
     title       String
     comments    Comment[]
-    description String?
+    description String @db.LongText
     @@index([authorId])
 }
 
