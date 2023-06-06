@@ -33,6 +33,7 @@ function Profile() {
 
   const onSubmit = (data: FormValues) => {
     if(!image) return Notiflix.Notify.warning("add image")
+    if(!data.title) return Notiflix.Notify.warning("add title")
     if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return Notiflix.Notify.warning("upload the correct file type: (jpg, jpeg, png)")
     if(bytesToSize(image.size).includes("MB")) return Notiflix.Notify.warning("Image size must be under 1MB")
 
@@ -109,7 +110,7 @@ function Profile() {
               }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
-            <textarea placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+            <textarea minLength={100} maxLength={2000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 
@@ -119,7 +120,7 @@ function Profile() {
               <h4 className="text-md">{el.title}</h4>
               <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
             </div>
-            <p className='text-sm'>{el.description}</p>
+            <p className='text-sm break-all'>{el.description}</p>
           </div>
         ))
         

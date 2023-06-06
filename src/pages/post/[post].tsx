@@ -46,11 +46,11 @@ function Post() {
             <Image src={data?.result?.image ?? ""} className="rounded-md object-cover" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
           </div>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl">{data?.result?.title}</h1>
+            <h1 className="text-3xl break-all">{data?.result?.title}</h1>
             <p>{dayjs(data?.result?.createdAt).fromNow()}</p>
           </div>
           <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
-          <p className="text-lg text-gray-300 my-4">{data?.result?.description}</p>
+          <p className="text-lg text-gray-300 my-4 break-all">{data?.result?.description}</p>
         </>
       }
       <h3 className="text-xl mt-20">Comments</h3>
@@ -65,7 +65,7 @@ function Post() {
                   <h4 className="text-md">{allComments.users.find(user => user.id == el.authorId)?.name}</h4>
                   <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
                 </div>
-                <p className='text-sm'>{el.comment}</p>
+                <p className='text-sm break-all'>{el.comment}</p>
               </div>
             </div>
           ))
