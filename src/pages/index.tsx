@@ -41,15 +41,15 @@ const Home: NextPage = () => {
             isLoading ?
               <Loader />
             :
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
+            <div className="grid grid-cols-1 gap-4 my-4">
               {
                 allPost?.posts.map(el => (
                   <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
                     <div>
-                      <div className="relative w-full h-[200px]">
-                        <Image src={el.image ?? ""} fill alt="image" className="rounded-md" />
+                      <div className="relative w-full min-h-[300px]">
+                        <Image src={el.image ?? ""} fill alt="image" className="rounded-md object-contain" />
                       </div>
-                      <div className="my-4">
+                      <div className="my-4 flex justify-between items-center">
                         <h3 className="text-2xl">{el.title}</h3>
                         <p>{dayjs(el.createdAt).fromNow()}</p>
                       </div>

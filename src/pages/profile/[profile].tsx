@@ -45,13 +45,13 @@ function Profile() {
           authorId: user?.id ?? "",
           image: url ?? "https://via.placeholder.com/1280x500"
         })
-        .then(() => Notiflix.Notify.success('Post Created!'))
-        .catch((err) => Notiflix.Notify.failure(err))
-        .finally(() => {
+        .then(() => {
+          Notiflix.Notify.success('Post Created!')
           setPreviewIMG("")
           setImage(undefined)
           reset()
         })
+        .catch((err) => Notiflix.Notify.failure(err))
       });
     }).catch((err) => Notiflix.Notify.failure(err))
    
@@ -88,14 +88,14 @@ function Profile() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="border border-dashed border-gray-500 relative grid place-items-center rounded-md mb-2">
               {previewIMG && 
-              <div className='w-full h-[400px]'>
+              <div className='w-full min-h-[300px]'>
                 <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={() => {
                   setPreviewIMG("")
                   setImage(undefined)
                 }}>
                   <span>x</span>
                 </div>
-                <Image src={previewIMG ?? ""} fill alt={'banner'} className='object-cover rounded-md' />
+                <Image src={previewIMG ?? ""} fill alt={'banner'} className='object-contain rounded-md' />
               </div>}
               {
                 !previewIMG &&
@@ -109,7 +109,7 @@ function Profile() {
               }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
-            <textarea minLength={200} maxLength={1000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+            <textarea minLength={100} maxLength={191} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 
