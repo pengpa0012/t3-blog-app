@@ -7,6 +7,7 @@ import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Loader } from '~/components/Loader'
 import Notiflix from 'notiflix'
+import { blurImage } from '~/utils/helper'
 dayjs.extend(relativeTime);
 
 function Post() {
@@ -43,7 +44,7 @@ function Post() {
       {postLoading ? <Loader />
         : <>
           <div className="w-full h-[500px] relative my-4">
-            <Image src={data?.result?.image ?? ""} className="rounded-md object-cover" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
+            <Image src={data?.result?.image ?? ""} className="rounded-md object-cover" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
           </div>
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl break-all">{data?.result?.title}</h1>

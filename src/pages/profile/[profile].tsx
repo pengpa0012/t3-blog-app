@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
-import { bytesToSize } from '~/utils/helper'
+import { blurImage, bytesToSize } from '~/utils/helper'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '~/utils/firebase'
 import { v4 } from "uuid";
@@ -74,7 +74,7 @@ function Profile() {
         {
           isLoaded ?
           <>
-            <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mb-4' width={200} height={200} />
+            <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mb-4' width={200} height={200} placeholder="blur" blurDataURL={blurImage} />
             <h1 className="text-3xl">{user?.fullName}</h1>
           </>
           : <Loader />

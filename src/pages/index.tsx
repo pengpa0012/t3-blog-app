@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import { Loader } from "~/components/Loader";
+import { blurImage } from "~/utils/helper";
 dayjs.extend(relativeTime);
 
 const Home: NextPage = () => {
@@ -47,7 +48,7 @@ const Home: NextPage = () => {
                   <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
                     <div>
                       <div className="relative w-full min-h-[300px]">
-                        <Image src={el.image ?? ""} fill alt="image" className="rounded-md object-contain" />
+                        <Image loading="lazy" src={el.image ?? ""} fill alt="image" className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} />
                       </div>
                       <div className="my-4 flex justify-between items-center">
                         <h3 className="text-2xl">{el.title}</h3>
