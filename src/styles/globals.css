@@ -7,3 +7,17 @@ body {
   background: #202124;
   color: #fff;
 }
+
+.scroll-comment::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-comment::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 10%);
+}
+
+.scroll-comment::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 50%);
+  border-radius: 20px;
+  padding: 5px;
+}
