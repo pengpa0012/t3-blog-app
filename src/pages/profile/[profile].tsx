@@ -11,6 +11,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '~/utils/firebase'
 import { v4 } from "uuid";
 import { Loader } from '~/components/Loader'
+import Notiflix from 'notiflix'
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -28,12 +29,12 @@ function Profile() {
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
-  const imgTypes = ["jpeg", "jpg", "png"]
+  const imgTypes = ["jpeg", "jpg", "png", "webp"]
 
   const onSubmit = (data: FormValues) => {
-    if(!image) return alert("add image")
-    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return alert("upload the correct file type: (jpg, jpeg, png)")
-    if(bytesToSize(image.size).includes("MB")) return alert("Image size must be under 1MB")
+    if(!image) return Notiflix.Notify.warning("add image")
+    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return Notiflix.Notify.warning("upload the correct file type: (jpg, jpeg, png)")
+    if(bytesToSize(image.size).includes("MB")) return Notiflix.Notify.warning("Image size must be under 1MB")
 
     const imageRef = ref(storage, `${image?.name + v4()}`);
     uploadBytes(imageRef, image).then(async (snapshot) => {
@@ -44,15 +45,15 @@ function Profile() {
           authorId: user?.id ?? "",
           image: url ?? "https://via.placeholder.com/1280x500"
         })
-        .catch(console.error)
+        .then(() => Notiflix.Notify.success('Post Created!'))
+        .catch((err) => Notiflix.Notify.failure(err))
         .finally(() => {
           setPreviewIMG("")
           setImage(undefined)
           reset()
-          alert("Post Created!")
         })
       });
-    }).catch(console.error)
+    }).catch((err) => Notiflix.Notify.failure(err))
    
   }
 
@@ -108,7 +109,7 @@ function Profile() {
               }
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
-            <textarea minLength={200} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
+            <textarea minLength={200} maxLength={1000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
             <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
           </form>
         : 

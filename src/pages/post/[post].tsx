@@ -30,10 +30,10 @@ function Post() {
     {
       onSettled: () => {
         setText("")
-        refetch().catch(console.error)
+        refetch().catch((err) => Notiflix.Notify.failure(err))
         Notiflix.Notify.success('Comment Created!')
       },
-      onError: console.error
+      onError: (err) => Notiflix.Notify.failure(err.message)
     })
   }
 
