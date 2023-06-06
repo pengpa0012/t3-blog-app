@@ -52,9 +52,9 @@ function Profile() {
           setImage(undefined)
           reset()
         })
-        .catch((err) => Notiflix.Notify.failure(err.message))
+        .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
       });
-    }).catch((err) => Notiflix.Notify.failure(err))
+    }).catch((err) => Notiflix.Notify.failure(err as string))
    
   }
 
