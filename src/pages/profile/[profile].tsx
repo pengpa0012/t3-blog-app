@@ -10,6 +10,7 @@ import { bytesToSize } from '~/utils/helper'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '~/utils/firebase'
 import { v4 } from "uuid";
+import { Loader } from '~/components/Loader'
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -21,15 +22,13 @@ type FormValues = {
 function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
-  const {user} = useUser()
+  const {user, isLoaded} = useUser()
   const [image, setImage] = useState<File | null>()
   const [previewIMG, setPreviewIMG] = useState("")
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
   const imgTypes = ["jpeg", "jpg", "png"]
-  // Add description min string length
-  // Add proper loader
 
   const onSubmit = (data: FormValues) => {
     if(!image) return alert("add image")
@@ -70,8 +69,14 @@ function Profile() {
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
       <div className='bg-[#303134] p-8 rounded-md mt-12 flex flex-col items-center'>
-        <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mb-4' width={200} height={200} />
-        <h1 className="text-3xl">{user?.fullName}</h1>
+        {
+          isLoaded ?
+          <>
+            <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mb-4' width={200} height={200} />
+            <h1 className="text-3xl">{user?.fullName}</h1>
+          </>
+          : <Loader />
+        }
       </div>
       <ul className="flex my-4 gap-2">
         <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>Create Post</li>

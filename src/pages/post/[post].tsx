@@ -5,13 +5,14 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Loader } from '~/components/Loader'
 dayjs.extend(relativeTime);
 
 function Post() {
   const router = useRouter()
-  const {user} = useUser()
-  const {data} = api.post.getPost.useQuery({id: router.query.post as string}, {enabled: router.isReady})
-  const {data: allComments, refetch} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
+  const {user, isLoaded} = useUser()
+  const {data, isLoading: postLoading} = api.post.getPost.useQuery({id: router.query.post as string}, {enabled: router.isReady})
+  const {data: allComments, refetch, isLoading: commentLoading} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
   const [text, setText] = useState("")
   const mutation = api.comment.createComment.useMutation()
 
@@ -37,18 +38,23 @@ function Post() {
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button onClick={() => router.back()}>Go Back</button>
-      <div className="w-full h-[500px] relative my-4">
-        <Image src={data?.result?.image ?? ""} className="rounded-md" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
-      </div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl">{data?.result?.title}</h1>
-        <p>{dayjs(data?.result?.createdAt).fromNow()}</p>
-      </div>
-      <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
-      <p className="text-lg text-gray-300 my-4">{data?.result?.description}</p>
+      {postLoading ? <Loader />
+        : <>
+          <div className="w-full h-[500px] relative my-4">
+            <Image src={data?.result?.image ?? ""} className="rounded-md" placeholder='blur' blurDataURL='https://via.placeholder.com/1280x500' fill alt={'banner'} />
+          </div>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl">{data?.result?.title}</h1>
+            <p>{dayjs(data?.result?.createdAt).fromNow()}</p>
+          </div>
+          <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
+          <p className="text-lg text-gray-300 my-4">{data?.result?.description}</p>
+        </>
+      }
       <h3 className="text-xl mt-20">Comments</h3>
       {
-        allComments?.result.map(el => (
+        commentLoading ? <Loader />
+        : allComments?.result.map(el => (
           <div className='flex items-center' key={el.id}>
             <Image src={allComments.users.find(user => user.id == el.authorId)?.image ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
             <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
@@ -61,10 +67,13 @@ function Post() {
           </div>
         ))
       }
-      <div className="flex items-center my-6">
-        <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
-        <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' onKeyDown={handleComment} />
-      </div>
+     {isLoaded ? 
+        <div className="flex items-center my-6">
+          <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
+          <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' onKeyDown={handleComment} />
+        </div>
+        : <Loader />
+      }
     </main>
   )
 }
