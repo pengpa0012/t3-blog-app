@@ -15,7 +15,7 @@ function Post() {
   const router = useRouter()
   const {user, isLoaded} = useUser()
   const {data, isLoading: postLoading} = api.post.getPost.useQuery({id: router.query.post as string}, {enabled: router.isReady})
-  const {data: allComments, refetch, isLoading: commentLoading} = api.comment.getAllComment.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
+  const {data: allComments, refetch, isLoading: commentLoading} = api.comment.getCommentByPost.useQuery({postId: router.query.post as string}, {enabled: router.isReady})
   const [text, setText] = useState("")
   const mutation = api.comment.createComment.useMutation()
 
@@ -49,10 +49,10 @@ function Post() {
           </div>
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl break-all">{data?.result?.title}</h1>
-            <p>{dayjs(data?.result?.createdAt).fromNow()}</p>
+            <p className='text-gray-300'>{dayjs(data?.result?.createdAt).fromNow()}</p>
           </div>
           <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
-          <p className="text-lg text-gray-300 my-4 break-all">{data?.result?.description}</p>
+          <p className="text-md text-gray-300 my-4 break-all">{data?.result?.description}</p>
         </>
       }
       <h3 className="text-xl mt-20">Comments</h3>

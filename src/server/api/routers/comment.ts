@@ -24,7 +24,7 @@ export const commentRouter = createTRPCRouter({
     }
   }),
 
-  getAllComment: protectedProcedure.input(z.object({ postId: z.string()})).query(async ({ ctx, input }) => {
+  getCommentByPost: protectedProcedure.input(z.object({ postId: z.string()})).query(async ({ ctx, input }) => {
     const result = await ctx.prisma.comment.findMany({ where: {postId: input.postId }, orderBy: [{ createdAt: "desc" }] })
     
     const users = (await clerkClient.users.getUserList()).filter(user => result.some(comment => comment.authorId === user.id)).map(mapUser)
@@ -33,5 +33,11 @@ export const commentRouter = createTRPCRouter({
       result,
       users
     }
+  }),
+
+  getAllComments: protectedProcedure.query(async ({ ctx }) => {
+    const result = await ctx.prisma.comment.findMany()
+
+    return result
   })
 })

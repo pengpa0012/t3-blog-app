@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import relativeTime from "dayjs/plugin/relativeTime";
 import { blurImage, bytesToSize } from '~/utils/helper'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '~/utils/firebase'
 import { v4 } from "uuid";
 import { Loader } from '~/components/Loader'
@@ -54,6 +54,7 @@ function Profile() {
           Notiflix.Notify.success('Post Created!')
           setPreviewIMG("")
           setImage(undefined)
+          refetch()
           reset()
         })
         .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
@@ -71,6 +72,12 @@ function Profile() {
   }
 
   const onDeletePost = () => {
+    const getPost = data?.find(post => post.id == postID)
+    if(getPost?.image){
+      const deletedImg = ref(storage, `${getPost.image.split("/").at(-1)!.split("?")[0]}`)
+      deleteObject(deletedImg)
+    }
+
     deletePost.mutateAsync({
       id: postID
     })
