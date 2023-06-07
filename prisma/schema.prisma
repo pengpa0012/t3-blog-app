@@ -74,8 +74,8 @@ model Post {
 model Comment {
     id          String @id @default(cuid())
     author      User @relation(fields: [authorId], references: [id])
-    post        Post @relation(fields: [postId], references: [id])
-    postId      String
+    post        Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+    postId      String?
     createdAt   DateTime @default(now())
     comment     String @db.LongText
     authorId    String 
