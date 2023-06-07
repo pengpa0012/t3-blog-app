@@ -8,6 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Loader } from '~/components/Loader'
 import Notiflix from 'notiflix'
 import { blurImage } from '~/utils/helper'
+import { CommentBox } from '~/components/CommentBox'
 dayjs.extend(relativeTime);
 
 function Post() {
@@ -59,16 +60,7 @@ function Post() {
         {
           commentLoading ? <Loader />
           : allComments?.result.map(el => (
-            <div className='flex items-center' key={el.id}>
-              <Image src={allComments.users.find(user => user.id == el.authorId)?.image ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
-              <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
-                <div className="flex justify-between items-center mb-1">
-                  <h4 className="text-md">{allComments.users.find(user => user.id == el.authorId)?.name}</h4>
-                  <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
-                </div>
-                <p className='text-sm break-all'>{el.comment}</p>
-              </div>
-            </div>
+            <CommentBox users={allComments.users} comment={el} key={el.id} />
           ))
         }
       </div>

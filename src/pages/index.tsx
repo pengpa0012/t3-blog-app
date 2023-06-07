@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
   // Delete Post/Image
-  
+
   return (
     <>
       <Head>
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
             <div className="grid grid-cols-1 gap-4 my-4">
               {
                 allPost?.posts.map(el => (
-                  <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} />
+                  <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} key={el.id} />
                 ))
               }
             </div>

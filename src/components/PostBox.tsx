@@ -19,7 +19,7 @@ export const PostBox = ({users, isUser, post, onClick}: { users?: allUsers, isUs
   const {user} = useUser()
 
   return (
-    <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer my-4`} onClick={onClick}>
+    <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer my-4 relative`} onClick={onClick}>
       <div>
         <div className="relative w-full min-h-[300px]">
           <Image loading="lazy" src={post.image ?? ""} fill alt="image" className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} />
@@ -29,7 +29,13 @@ export const PostBox = ({users, isUser, post, onClick}: { users?: allUsers, isUs
           <p>{dayjs(post.createdAt).fromNow()}</p>
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
-      </div>              
+      </div>     
+      {isUser && <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={(e) => {
+        e.stopPropagation()
+        console.log("Test")
+      }}>
+        <span>x</span>
+      </div> }  
     </div>
   )
 }
