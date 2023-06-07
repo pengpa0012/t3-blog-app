@@ -15,7 +15,7 @@ type allUsers = {
   image: string;
 }[]
 
-export const PostBox = ({users, isUser, post, onClick}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void}) => {
+export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void, onClickDelete?: (e: React.MouseEvent<HTMLElement>) => void}) => {
   const {user} = useUser()
 
   return (
@@ -30,10 +30,7 @@ export const PostBox = ({users, isUser, post, onClick}: { users?: allUsers, isUs
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
       </div>     
-      {isUser && <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={(e) => {
-        e.stopPropagation()
-        console.log("Test")
-      }}>
+      {isUser && <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={onClickDelete}>
         <span>x</span>
       </div> }  
     </div>

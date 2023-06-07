@@ -5,15 +5,8 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { mapUser } from "~/utils/helper";
-// When querying data if you need to display the user, just select all the user on clerkClient
 
 export const postRouter = createTRPCRouter({
-  // deletePost
-  // author  User @relation(fields: [authorId], references: [id])
-  // authorId    String 
-  // title   String
-  // comments Comment[]
-  // description String
 
   createPost: protectedProcedure.input(z.object({
     authorId: z.string(),

@@ -7,7 +7,6 @@ import {
 import { mapUser } from "~/utils/helper";
 
 export const commentRouter = createTRPCRouter({
-  // deleteComment
 
   createComment: protectedProcedure.input(z.object({ postId: z.string(), comment: z.string(), authorId: z.string() })).mutation(async ({ctx, input}) => {
     const { postId, comment, authorId } = input

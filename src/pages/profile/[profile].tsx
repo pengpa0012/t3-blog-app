@@ -27,6 +27,7 @@ function Profile() {
   const {user, isLoaded} = useUser()
   const [image, setImage] = useState<File | null>()
   const [previewIMG, setPreviewIMG] = useState("")
+  const [modal, setModal] = useState(false)
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
   const mutation = api.post.createPost.useMutation()
@@ -67,9 +68,23 @@ function Profile() {
     }
   }
 
-  console.log(image)
+  const onDeletePost = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    setModal(true)
+    console.log("test")
+  }
+
   return (
     <main className="max-w-[1200px] mx-auto p-6">
+      <div className={`fixed inset-0 z-[100] bg-black/10 grid place-items-center transition duration-250 ${modal ? "scale-1" : "scale-0"}`}>
+        <div className='text-white bg-[#303237] p-6 rounded-md m-4'>
+          <p className='text-gray-200'>Are you sure you want to delete this post?</p>
+          <div className="flex mt-4 justify-center gap-4">
+            <button className='text-gray-300' onClick={() => setModal(false)}>Cancel</button>
+            <button className='text-white bg-red-500 p-2 rounded-md'>Delete</button>
+          </div>
+        </div>
+      </div>
       <button onClick={() => router.back()}>Go Back</button>
       <div className='bg-[#303134] p-8 rounded-md mt-12 flex flex-col items-center'>
         {
@@ -116,7 +131,7 @@ function Profile() {
           </form>
         : 
         data?.map(el => (
-          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id}/>
+          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={onDeletePost}/>
         ))
         
       }
