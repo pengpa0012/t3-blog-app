@@ -9,6 +9,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import { Loader } from "~/components/Loader";
 import { blurImage } from "~/utils/helper";
+import { PostBox } from "~/components/PostBox";
 dayjs.extend(relativeTime);
 
 const Home: NextPage = () => {
@@ -17,7 +18,8 @@ const Home: NextPage = () => {
   const router = useRouter()
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
-
+  // Delete Post/Image
+  
   return (
     <>
       <Head>
@@ -45,18 +47,7 @@ const Home: NextPage = () => {
             <div className="grid grid-cols-1 gap-4 my-4">
               {
                 allPost?.posts.map(el => (
-                  <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer`} key={el.id} onClick={() => router.push(`/post/${el.id || ""}`)}>
-                    <div>
-                      <div className="relative w-full min-h-[300px]">
-                        <Image loading="lazy" src={el.image ?? ""} fill alt="image" className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} />
-                      </div>
-                      <div className="my-4 flex justify-between items-center">
-                        <h3 className="text-2xl">{el.title}</h3>
-                        <p>{dayjs(el.createdAt).fromNow()}</p>
-                      </div>
-                      <p>{allPost?.users.find(user => user.id == el.authorId)?.name}</p>
-                    </div>              
-                  </div>
+                  <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} />
                 ))
               }
             </div>

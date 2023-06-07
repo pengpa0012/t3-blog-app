@@ -12,6 +12,7 @@ import { storage } from '~/utils/firebase'
 import { v4 } from "uuid";
 import { Loader } from '~/components/Loader'
 import Notiflix from 'notiflix'
+import { PostBox } from '~/components/PostBox'
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -115,13 +116,14 @@ function Profile() {
           </form>
         : 
         data?.map(el => (
-          <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
-            <div className="flex justify-between items-center mb-1">
-              <h4 className="text-md">{el.title}</h4>
-              <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
-            </div>
-            <p className='text-sm break-all'>{el.description}</p>
-          </div>
+          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser />
+          // <div className='bg-[#303134] rounded-md my-2 text-[#bdc1c6] p-2 w-full' key={el.id}>
+          //   <div className="flex justify-between items-center mb-1">
+          //     <h4 className="text-md">{el.title}</h4>
+          //     <p className='text-sm'>{dayjs(el.createdAt).fromNow()}</p>
+          //   </div>
+          //   <p className='text-sm break-all'>{el.description}</p>
+          // </div>
         ))
         
       }
