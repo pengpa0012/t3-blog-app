@@ -28,9 +28,11 @@ function Profile() {
   const [image, setImage] = useState<File | null>()
   const [previewIMG, setPreviewIMG] = useState("")
   const [modal, setModal] = useState(false)
+  const [postID, setPostID] = useState("")
   const { register, handleSubmit, reset } = useForm<FormValues>()
-  const { data } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
-  const mutation = api.post.createPost.useMutation()
+  const { data, refetch } = api.post.getUserPosts.useQuery({authorId: router.query.profile as string}, {enabled: router.isReady})
+  const createPost = api.post.createPost.useMutation()
+  const deletePost = api.post.deletePost.useMutation()
   const imgTypes = ["jpeg", "jpg", "png", "webp"]
 
   const onSubmit = (data: FormValues) => {
@@ -42,7 +44,7 @@ function Profile() {
     const imageRef = ref(storage, `${image?.name + v4()}`);
     uploadBytes(imageRef, image).then(async (snapshot) => {
       await getDownloadURL(snapshot.ref).then((url) => {
-        mutation.mutateAsync({
+        createPost.mutateAsync({
           title: data.title,
           description: data.description,
           authorId: user?.id ?? "",
@@ -68,10 +70,17 @@ function Profile() {
     }
   }
 
-  const onDeletePost = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation()
-    setModal(true)
-    console.log("test")
+  const onDeletePost = () => {
+    deletePost.mutateAsync({
+      id: postID
+    })
+    .then(() => {
+      Notiflix.Notify.success('Post Deleted!')
+      setPostID("")
+      refetch()
+      setModal(false)
+    })
+    .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
   }
 
   return (
@@ -81,7 +90,7 @@ function Profile() {
           <p className='text-gray-200'>Are you sure you want to delete this post?</p>
           <div className="flex mt-4 justify-center gap-4">
             <button className='text-gray-300' onClick={() => setModal(false)}>Cancel</button>
-            <button className='text-white bg-red-500 p-2 rounded-md'>Delete</button>
+            <button className='text-white bg-red-500 p-2 rounded-md' onClick={onDeletePost}>Delete</button>
           </div>
         </div>
       </div>
@@ -131,7 +140,11 @@ function Profile() {
           </form>
         : 
         data?.map(el => (
-          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={onDeletePost}/>
+          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={(e) => {
+            e.stopPropagation()
+            setPostID(el.id)
+            setModal(true)
+          }}/>
         ))
         
       }

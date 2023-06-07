@@ -24,6 +24,15 @@ export const postRouter = createTRPCRouter({
     }
   }),
 
+  deletePost: protectedProcedure.input(z.object({ id: z.string() })).mutation(async ({ctx, input}) => {
+    const result = await ctx.prisma.post.delete({where: {id: input.id}})
+
+    return {
+      post_deleted: result,
+      message: "Post Deleted!"
+    }
+  }),
+
   getAllPost: protectedProcedure.query(async({ ctx }) => {
     const posts = await ctx.prisma.post.findMany({ orderBy: [{ createdAt: "desc" }] })
     const users = (await clerkClient.users.getUserList()).filter(user => {

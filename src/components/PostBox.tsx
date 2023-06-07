@@ -15,7 +15,7 @@ type allUsers = {
   image: string;
 }[]
 
-export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void, onClickDelete?: (e: React.MouseEvent<HTMLElement>) => void}) => {
+export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void, onClickDelete?: (id: React.MouseEvent<HTMLElement>) => void}) => {
   const {user} = useUser()
 
   return (
