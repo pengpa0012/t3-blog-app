@@ -43,8 +43,8 @@ function Post() {
       <button onClick={() => router.back()}>Go Back</button>
       {postLoading ? <Loader />
         : <>
-          <div className="w-full h-[500px] relative my-4">
-            <Image src={data?.result?.image ?? ""} className="rounded-md object-cover" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
+          <div className="w-full min-h-[300px] relative my-4">
+            <Image src={data?.result?.image ?? ""} className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
           </div>
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl break-all">{data?.result?.title}</h1>
