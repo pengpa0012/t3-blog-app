@@ -25,10 +25,12 @@ export const postRouter = createTRPCRouter({
   }),
 
   deletePost: protectedProcedure.input(z.object({ id: z.string() })).mutation(async ({ctx, input}) => {
-    const result = await ctx.prisma.post.delete({where: {id: input.id}, include: {comments: true} })
+    const result = await ctx.prisma.post.delete({where: {id: input.id}})
+    const deletedComments = await ctx.prisma.comment.deleteMany({where: {postId: input.id}})
 
     return {
       post_deleted: result,
+      deleted_comments: deletedComments,
       message: "Post Deleted!"
     }
   }),
