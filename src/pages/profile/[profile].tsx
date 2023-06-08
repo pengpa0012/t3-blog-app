@@ -54,7 +54,7 @@ function Profile() {
           Notiflix.Notify.success('Post Created!')
           setPreviewIMG("")
           setImage(undefined)
-          refetch()
+          refetch().catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
           reset()
         })
         .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
@@ -74,8 +74,8 @@ function Profile() {
   const onDeletePost = () => {
     const getPost = data?.find(post => post.id == postID)
     if(getPost?.image){
-      const deletedImg = ref(storage, `${getPost.image.split("/").at(-1)!.split("?")[0]}`)
-      deleteObject(deletedImg)
+      const deletedImg = ref(storage, `${getPost.image.split("/").at(-1)!.split("?")[0] ?? ""}`)
+      deleteObject(deletedImg).catch((err: string) => Notiflix.Notify.failure(err))
     }
 
     deletePost.mutateAsync({
@@ -84,7 +84,7 @@ function Profile() {
     .then(() => {
       Notiflix.Notify.success('Post Deleted!')
       setPostID("")
-      refetch()
+      refetch().catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
       setModal(false)
     })
     .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))

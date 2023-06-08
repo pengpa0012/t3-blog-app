@@ -6,9 +6,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Image from "next/image";
 import { Loader } from "~/components/Loader";
-import { blurImage } from "~/utils/helper";
 import { PostBox } from "~/components/PostBox";
 dayjs.extend(relativeTime);
 
@@ -18,8 +16,9 @@ const Home: NextPage = () => {
   const router = useRouter()
   // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
-  // Delete Post/Image
+  const {data: allComments} = api.comment.getAllComments.useQuery()
 
+  console.log(allComments)
   return (
     <>
       <Head>

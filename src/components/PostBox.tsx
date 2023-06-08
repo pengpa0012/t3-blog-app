@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import { blurImage } from '~/utils/helper'
 import relativeTime from "dayjs/plugin/relativeTime";
-import { EmailAddress } from '@clerk/nextjs/dist/types/server';
+import type { EmailAddress } from '@clerk/nextjs/server';
 dayjs.extend(relativeTime);
 import type { Post }from "@prisma/client"
 import { useUser } from '@clerk/nextjs';

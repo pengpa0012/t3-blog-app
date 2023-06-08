@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import relativeTime from "dayjs/plugin/relativeTime";
-import { EmailAddress } from '@clerk/nextjs/dist/types/server';
+import type { EmailAddress } from '@clerk/nextjs/server';
 import type { Comment }from "@prisma/client"
 dayjs.extend(relativeTime);
 
