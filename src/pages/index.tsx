@@ -14,11 +14,9 @@ const Home: NextPage = () => {
   const { user, isLoaded } = useUser()
   // const [tab, setTab] = useState(0)
   const router = useRouter()
-  // const {data} = api.example.getPost.useQuery({id: "clid70vwx00009e400lifop3z"})
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
-  const {data: allComments} = api.comment.getAllComments.useQuery()
 
-  console.log(allComments)
+
   return (
     <>
       <Head>
@@ -30,7 +28,7 @@ const Home: NextPage = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">T3 Blog App</h1>
           {isLoaded ? <div className="flex items-center gap-2">
-            <h1 className="text-md" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
+            <h1 className="text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
             <UserButton afterSignOutUrl="/"/>
           </div> : <Loader />}
         </div>
@@ -43,7 +41,7 @@ const Home: NextPage = () => {
             isLoading ?
               <Loader />
             :
-            <div className="grid grid-cols-1 gap-4 my-4">
+            <div className="grid grid-cols-1 my-4">
               {
                 allPost?.posts.map(el => (
                   <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} key={el.id} />

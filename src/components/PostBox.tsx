@@ -21,8 +21,8 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?:
   return (
     <div className={`p-4 bg-[#303134] rounded-md text-[#bdc1c6] cursor-pointer my-4 relative`} onClick={onClick}>
       <div>
-        <div className="relative w-full min-h-[300px]">
-          <Image loading="lazy" src={post.image ?? ""} fill alt="image" className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} />
+        <div className="relative w-full bg-[#252525] rounded-md min-h-[300px]">
+          <Image loading="lazy" src={post.image ?? ""} fill alt="image" className="object-contain" placeholder="blur" blurDataURL={blurImage} />
         </div>
         <div className="my-4 flex justify-between items-center">
           <h3 className="text-2xl">{post.title}</h3>

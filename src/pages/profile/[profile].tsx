@@ -143,16 +143,20 @@ function Profile() {
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
             <textarea minLength={100} maxLength={2000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
-            <button className='w-full rounded-md outline-none bg-blue-400 text-white py-3 text-lg'>Post</button>
+            <button className='w-full rounded-md outline-none bg-green-500 hover:bg-green-600 text-white py-3 text-lg'>Post</button>
           </form>
         : 
-        data?.map(el => (
-          <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={(e) => {
-            e.stopPropagation()
-            setPostID(el.id)
-            setModal(true)
-          }}/>
-        ))
+        <div className="grid grid-cols-1 my-4">
+          {  
+            data?.map(el => (
+              <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={(e) => {
+                e.stopPropagation()
+                setPostID(el.id)
+                setModal(true)
+              }}/>
+            ))
+          }
+        </div>
         
       }
       

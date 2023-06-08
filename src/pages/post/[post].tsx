@@ -44,18 +44,20 @@ function Post() {
       <button onClick={() => router.back()}>Go Back</button>
       {postLoading ? <Loader />
         : <>
-          <div className="w-full min-h-[300px] relative my-4">
-            <Image src={data?.result?.image ?? ""} className="rounded-md object-contain" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
+          <div className="w-full min-h-[300px] bg-[#252525] rounded-md relative my-4">
+            <Image src={data?.result?.image ?? ""} className="object-contain" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
           </div>
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl break-all">{data?.result?.title}</h1>
-            <p className='text-gray-300'>{dayjs(data?.result?.createdAt).fromNow()}</p>
+          <div className="my-8">
+            <div className="flex justify-between items-center mb-4">
+              <h1 className="text-3xl break-all">{data?.result?.title}</h1>
+              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).fromNow()}</p>
+            </div>
+            <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
+            <p className="text-md text-gray-300 my-4 break-all">{data?.result?.description}</p>
           </div>
-          <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
-          <p className="text-md text-gray-300 my-4 break-all">{data?.result?.description}</p>
         </>
       }
-      <h3 className="text-xl mt-20">Comments</h3>
+      <h3 className="text-xl mt-40">Comments</h3>
       <div className='scroll-comment max-h-[400px] overflow-y-scroll px-2'>
         {
           commentLoading ? <Loader />
