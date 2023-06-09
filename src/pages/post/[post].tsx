@@ -41,7 +41,7 @@ function Post() {
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
-      <button onClick={() => router.back()}>Go Back</button>
+      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer' onClick={() => router.back()}>Go Back</button>
       {postLoading ? <Loader />
         : <>
           <div className="w-full min-h-[300px] bg-[#252525] rounded-md relative my-4">
@@ -49,15 +49,15 @@ function Post() {
           </div>
           <div className="my-8">
             <div className="flex justify-between items-center mb-4">
-              <h1 className="text-3xl break-all">{data?.result?.title}</h1>
-              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).fromNow()}</p>
+              <h1 className="text-3xl break-all text-gray-200">{data?.result?.title}</h1>
+              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD, YYYY · h:mm a`)}</p>
             </div>
             <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
             <p className="text-md text-gray-300 my-4 break-all">{data?.result?.description}</p>
           </div>
         </>
       }
-      <h3 className="text-xl mt-40">Comments</h3>
+      <h3 className="text-xl mt-40 text-gray-300">Comments</h3>
       <div className='scroll-comment max-h-[400px] overflow-y-scroll px-2'>
         {
           commentLoading ? <Loader />
@@ -69,7 +69,7 @@ function Post() {
      {isLoaded ? 
         <div className="flex items-center my-6">
           <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
-          <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none' onKeyDown={handleComment} />
+          <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none text-gray-300' onKeyDown={handleComment} />
         </div>
         : <Loader />
       }

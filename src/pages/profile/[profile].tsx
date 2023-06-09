@@ -101,7 +101,7 @@ function Profile() {
           </div>
         </div>
       </div>
-      <button onClick={() => router.back()}>Go Back</button>
+      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer' onClick={() => router.back()}>Go Back</button>
       <div className='bg-[#303134] p-8 rounded-md mt-12 flex flex-col items-center'>
         {
           isLoaded ?
