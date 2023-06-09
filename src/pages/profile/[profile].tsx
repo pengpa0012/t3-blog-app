@@ -38,7 +38,7 @@ function Profile() {
   const onSubmit = (data: FormValues) => {
     if(!image) return Notiflix.Notify.warning("add image")
     if(!data.title) return Notiflix.Notify.warning("add title")
-    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return Notiflix.Notify.warning("upload the correct file type: (jpg, jpeg, png)")
+    if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return Notiflix.Notify.warning("upload the correct file type: (jpg, jpeg, png, webp)")
     if(bytesToSize(image.size).includes("MB")) return Notiflix.Notify.warning("Image size must be under 1MB")
 
     const imageRef = ref(storage, `${image?.name + v4()}`);
@@ -71,7 +71,8 @@ function Profile() {
     }
   }
 
-  const onDeletePost = () => {
+  const onDeletePost = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation()
     const getPost = data?.find(post => post.id == postID)
     if(getPost?.image){
       const deletedImg = ref(storage, `${getPost.image.split("/").at(-1)!.split("?")[0] ?? ""}`)
@@ -92,12 +93,12 @@ function Profile() {
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
-      <div className={`fixed inset-0 z-[100] bg-black/10 grid place-items-center transition duration-250 ${modal ? "scale-1" : "scale-0"}`}>
+      <div className={`fixed inset-0 z-[100] bg-black/10 grid place-items-center transition duration-250 ${modal ? "scale-1" : "scale-0"}`} onClick={() => setModal(false)}>
         <div className='text-white bg-[#303237] p-6 rounded-md m-4'>
           <p className='text-gray-200'>Are you sure you want to delete this post?</p>
           <div className="flex mt-4 justify-center gap-4">
             <button className='text-gray-300' onClick={() => setModal(false)}>Cancel</button>
-            <button className='text-white bg-red-500 p-2 rounded-md' onClick={onDeletePost}>Delete</button>
+            <button className='text-white bg-red-500 p-2 rounded-md' onClick={(e) => onDeletePost(e)}>Delete</button>
           </div>
         </div>
       </div>

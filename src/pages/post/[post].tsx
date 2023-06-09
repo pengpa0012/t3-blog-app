@@ -50,10 +50,10 @@ function Post() {
           <div className="my-8">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-3xl break-all text-gray-200">{data?.result?.title}</h1>
-              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD, YYYY · h:mm a`)}</p>
+              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
             </div>
             <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
-            <p className="text-md text-gray-300 my-4 break-all">{data?.result?.description}</p>
+            <p className="text-md text-gray-300 my-4 break-all whitespace-pre-line">{data?.result?.description}</p>
           </div>
         </>
       }

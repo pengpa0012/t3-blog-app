@@ -26,7 +26,7 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?:
         </div>
         <div className="my-4 flex justify-between items-center">
           <h3 className="text-2xl">{post.title}</h3>
-          <p>{dayjs(post.createdAt).format(`MMMM DD, YYYY · h:mm a`)}</p>
+          <p>{dayjs(post.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
       </div>     
