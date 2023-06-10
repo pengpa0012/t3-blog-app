@@ -32,7 +32,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="max-w-[1200px] mx-auto p-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">T3 Blog App</h1>
+          <h1 className="text-xl md:text-3xl font-bold">T3 Blog App</h1>
           {isLoaded ? <div className="flex items-center gap-2">
             <h1 className="text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer" onClick={() => router.push(`/profile/${user?.id || ""}`)}>{user?.firstName}</h1>
             <UserButton afterSignOutUrl="/"/>
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
         <ul className="flex mt-12 gap-2">
           {/* <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>For You</li>
           <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>Following</li> */}
-          <li className={`text-[#bdc1c6] text-2xl rounded-md`}>My Feed</li>
+          <li className={`text-[#bdc1c6] text-lg md:text-2xl rounded-md`}>My Feed</li>
         </ul>
           {
             isLoading ?

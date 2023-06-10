@@ -119,14 +119,14 @@ function Profile() {
           isLoaded ?
           <>
             <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mb-4' width={200} height={200} placeholder="blur" blurDataURL={blurImage} />
-            <h1 className="text-3xl">{user?.fullName}</h1>
+            <h1 className="text-xl md:text-3xl">{user?.fullName}</h1>
           </>
           : <Loader />
         }
       </div>
       <ul className="flex my-4 gap-2">
-        <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>Create Post</li>
-        <li className={`text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>My Posts</li>
+        <li className={`text-sm md:text-md text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 0 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(0)}>Create Post</li>
+        <li className={`text-sm md:text-md text-[#bdc1c6] cursor-pointer p-3 rounded-md ${tab == 1 ? "text-white bg-white/10" : ""}`} onClick={() => setTab(1)}>My Posts</li>
       </ul>
       {
         tab == 0 ?
@@ -155,7 +155,7 @@ function Profile() {
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
             <textarea minLength={100} maxLength={2000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
-            <button className='w-full rounded-md outline-none bg-green-500 hover:bg-green-600 text-white py-3 text-lg'>Post</button>
+            <button className='w-full rounded-md outline-none bg-green-500 hover:bg-green-600 text-white py-3 text-sm md:text-lg'>Post</button>
           </form>
         : 
         <div className="grid grid-cols-1 my-4">

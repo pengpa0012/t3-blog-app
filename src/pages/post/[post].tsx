@@ -54,9 +54,9 @@ function Post() {
             <Image src={data?.result?.image ?? ""} className="object-contain" placeholder="blur" blurDataURL={blurImage} fill alt={'banner'} />
           </div>
           <div className="my-8">
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-3xl break-all text-gray-200">{data?.result?.title}</h1>
-              <p className='text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+              <h1 className="text-xl md:text-2xl break-all text-gray-200">{data?.result?.title}</h1>
+              <p className='text-sm md:text-md text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
             </div>
             <div className="flex items-center mb-12">
               <Image src={data?.users[0]?.image ?? ""} alt="image" className='rounded-full mr-2' width={30} height={30} />
@@ -66,7 +66,7 @@ function Post() {
           </div>
         </>
       }
-      <h3 className="text-xl mt-40 text-gray-300">Comments</h3>
+      <h3 className="text-md sm:text-xl mt-40 text-gray-300">Comments</h3>
       <div className='scroll-comment max-h-[400px] overflow-y-scroll px-2'>
         {
           commentLoading ? <Loader />
@@ -78,7 +78,7 @@ function Post() {
      {isLoaded ? 
         <div className="flex items-center my-6">
           <Image src={user?.profileImageUrl ?? ""} alt="image" className='rounded-full mr-2' width={45} height={45} />
-          <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none text-gray-300' onKeyDown={handleComment} />
+          <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder='Comment...' className='text-sm sm:text-md bg-inherit w-full rounded-md p-2 border border-gray-500 outline-none text-gray-300' onKeyDown={handleComment} />
         </div>
         : <Loader />
       }

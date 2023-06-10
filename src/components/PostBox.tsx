@@ -31,9 +31,9 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete, comments}:
         <div className="relative w-full bg-[#252525] rounded-md min-h-[300px]">
           <Image loading="lazy" src={post.image ?? ""} fill alt="image" className="object-contain" placeholder="blur" blurDataURL={blurImage} />
         </div>
-        <div className="my-4 flex justify-between items-center">
-          <h3 className="text-2xl">{post.title}</h3>
-          <p>{dayjs(post.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
+        <div className="my-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+          <h3 className="text-md md:text-2xl">{post.title}</h3>
+          <p className='text-sm md:text-md'>{dayjs(post.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
         <div className='flex items-center gap-1 mb-2'>
