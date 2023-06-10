@@ -9,6 +9,8 @@ import { Loader } from '~/components/Loader'
 import Notiflix from 'notiflix'
 import { blurImage } from '~/utils/helper'
 import { CommentBox } from '~/components/CommentBox'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 dayjs.extend(relativeTime);
 
 function Post() {
@@ -42,7 +44,10 @@ function Post() {
 
   return (
     <main className="max-w-[1200px] mx-auto p-6">
-      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer' onClick={() => router.back()}>Go Back</button>
+      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer flex items-center gap-2' onClick={() => router.back()}>
+        <FontAwesomeIcon icon={faArrowLeft} className='my-2' />
+        <span>Go Back</span>
+      </button>
       {postLoading ? <Loader />
         : <>
           <div className="w-full min-h-[300px] bg-[#252525] rounded-md relative my-4">

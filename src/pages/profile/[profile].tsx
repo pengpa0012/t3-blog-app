@@ -13,6 +13,8 @@ import { v4 } from "uuid";
 import { Loader } from '~/components/Loader'
 import Notiflix from 'notiflix'
 import { PostBox } from '~/components/PostBox'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 dayjs.extend(relativeTime);
 
 type FormValues = {
@@ -108,8 +110,11 @@ function Profile() {
           </div>
         </div>
       </div>
-      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer' onClick={() => router.back()}>Go Back</button>
-      <div className='bg-[#303134] p-8 rounded-md mt-12 flex flex-col items-center'>
+      <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer flex items-center gap-2' onClick={() => router.back()}>
+        <FontAwesomeIcon icon={faArrowLeft} className='my-2' />
+        <span>Go Back</span>
+      </button>
+      <div className='bg-[#303134] p-8 rounded-md my-4 flex flex-col items-center'>
         {
           isLoaded ?
           <>

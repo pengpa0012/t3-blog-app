@@ -38,7 +38,7 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete, comments}:
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
         <div className='flex items-center gap-1'>
           <FontAwesomeIcon icon={faComment} className='my-2' />
-          <p>{comments?.filter(comment => comment.postId == post.id).length}</p>
+          <p className='text-sm'>{comments?.filter(comment => comment.postId == post.id).length}</p>
         </div>
       </div>     
       {isUser && <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={onClickDelete}>
