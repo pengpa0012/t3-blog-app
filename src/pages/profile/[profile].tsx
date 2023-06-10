@@ -111,7 +111,7 @@ function Profile() {
         </div>
       </div>
       <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer flex items-center gap-2' onClick={() => router.back()}>
-        <FontAwesomeIcon icon={faArrowLeft} className='my-2' />
+        <FontAwesomeIcon icon={faArrowLeft} className='w-4' />
         <span>Go Back</span>
       </button>
       <div className='bg-[#303134] p-8 rounded-md my-4 flex flex-col items-center'>

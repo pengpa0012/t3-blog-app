@@ -45,7 +45,7 @@ function Post() {
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer flex items-center gap-2' onClick={() => router.back()}>
-        <FontAwesomeIcon icon={faArrowLeft} className='my-2' />
+        <FontAwesomeIcon icon={faArrowLeft} className='w-4' />
         <span>Go Back</span>
       </button>
       {postLoading ? <Loader />

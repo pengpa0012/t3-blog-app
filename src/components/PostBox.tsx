@@ -36,8 +36,8 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete, comments}:
           <p>{dayjs(post.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
-        <div className='flex items-center gap-1'>
-          <FontAwesomeIcon icon={faComment} className='my-2' />
+        <div className='flex items-center gap-1 mb-2'>
+          <FontAwesomeIcon icon={faComment} className='w-4' />
           <p className='text-sm'>{comments?.filter(comment => comment.postId == post.id).length}</p>
         </div>
       </div>     
