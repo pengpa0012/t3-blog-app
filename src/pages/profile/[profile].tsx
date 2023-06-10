@@ -21,6 +21,11 @@ type FormValues = {
   description: string
 };
 
+type allComment = {
+  id: string;
+  postId: string | null
+}[]
+
 function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
@@ -34,6 +39,7 @@ function Profile() {
   const createPost = api.post.createPost.useMutation()
   const deletePost = api.post.deletePost.useMutation()
   const imgTypes = ["jpeg", "jpg", "png", "webp"]
+  const {data: allComments } = api.comment.getAllComments.useQuery()
 
   const onSubmit = (data: FormValues) => {
     if(!image) return Notiflix.Notify.warning("add image")
@@ -150,7 +156,7 @@ function Profile() {
         <div className="grid grid-cols-1 my-4">
           {  
             data?.map(el => (
-              <PostBox post={el} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={(e) => {
+              <PostBox post={el} comments={allComments as allComment} onClick={() => router.push(`/post/${el.id || ""}`)} isUser key={el.id} onClickDelete={(e) => {
                 e.stopPropagation()
                 setPostID(el.id)
                 setModal(true)

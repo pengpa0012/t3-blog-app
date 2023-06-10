@@ -7,6 +7,8 @@ import type { EmailAddress } from '@clerk/nextjs/server';
 dayjs.extend(relativeTime);
 import type { Post }from "@prisma/client"
 import { useUser } from '@clerk/nextjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 type allUsers = {
   id: string;
@@ -15,7 +17,12 @@ type allUsers = {
   image: string;
 }[]
 
-export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void, onClickDelete?: (id: React.MouseEvent<HTMLElement>) => void}) => {
+type allComment = {
+  id: string;
+  postId: string | null
+}[]
+
+export const PostBox = ({users, isUser, post, onClick, onClickDelete, comments}: { users?: allUsers, isUser?: boolean, post: Post, onClick?: () => void, onClickDelete?: (id: React.MouseEvent<HTMLElement>) => void, comments: allComment}) => {
   const {user} = useUser()
 
   return (
@@ -29,6 +36,10 @@ export const PostBox = ({users, isUser, post, onClick, onClickDelete}: { users?:
           <p>{dayjs(post.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
         </div>
         <p>{isUser ? user?.firstName : users?.find(user => user.id == post.authorId)?.name}</p>
+        <div className='flex items-center gap-1'>
+          <FontAwesomeIcon icon={faComment} className='my-2' />
+          <p>{comments?.filter(comment => comment.postId == post.id).length}</p>
+        </div>
       </div>     
       {isUser && <div className='absolute cursor-pointer right-[-10px] top-[-10px] bg-red-500 h-[30px] w-[30px] grid place-items-center z-[60] rounded-full' onClick={onClickDelete}>
         <span>x</span>

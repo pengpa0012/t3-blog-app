@@ -39,6 +39,7 @@ function Post() {
     })
   }
 
+
   return (
     <main className="max-w-[1200px] mx-auto p-6">
       <button className='text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-2 rounded-md cursor-pointer' onClick={() => router.back()}>Go Back</button>
@@ -52,7 +53,10 @@ function Post() {
               <h1 className="text-3xl break-all text-gray-200">{data?.result?.title}</h1>
               <p className='text-gray-300'>{dayjs(data?.result?.createdAt).format(`MMMM DD YYYY · h:mma`)}</p>
             </div>
-            <p className="text-lg text-gray-300">{data?.users[0]?.name}</p>
+            <div className="flex items-center mb-12">
+              <Image src={data?.users[0]?.image ?? ""} alt="image" className='rounded-full mr-2' width={30} height={30} />
+              <p className="text-sm text-gray-300">{data?.users[0]?.name}</p>
+            </div>
             <p className="text-md text-gray-300 my-4 break-all whitespace-pre-line">{data?.result?.description}</p>
           </div>
         </>

@@ -10,11 +10,17 @@ import { Loader } from "~/components/Loader";
 import { PostBox } from "~/components/PostBox";
 dayjs.extend(relativeTime);
 
+type allComment = {
+  id: string;
+  postId: string | null
+}[]
+
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser()
   // const [tab, setTab] = useState(0)
   const router = useRouter()
   const {data: allPost, isLoading} = api.post.getAllPost.useQuery()
+  const {data: allComments } = api.comment.getAllComments.useQuery()
 
 
   return (
@@ -44,7 +50,7 @@ const Home: NextPage = () => {
             <div className="grid grid-cols-1 my-4">
               {
                 allPost?.posts.map(el => (
-                  <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} key={el.id} />
+                  <PostBox users={allPost.users} post={el} onClick={() => router.push(`/post/${el.id || ""}`)} key={el.id} comments={allComments as allComment} />
                 ))
               }
             </div>
