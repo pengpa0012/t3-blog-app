@@ -31,6 +31,7 @@ type allComment = {
 function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const {user, isLoaded} = useUser()
   const [image, setImage] = useState<File | null>()
   const [previewIMG, setPreviewIMG] = useState("")
@@ -49,6 +50,7 @@ function Profile() {
     if(!imgTypes.includes(image?.name.split(".").at(-1) as string)) return Notiflix.Notify.warning("upload the correct file type: (jpg, jpeg, png, webp)")
     if(bytesToSize(image.size).includes("MB")) return Notiflix.Notify.warning("Image size must be under 1MB")
 
+    setIsLoading(true)
     const imageRef = ref(storage, `${image?.name + v4()}`);
     uploadBytes(imageRef, image).then(async (snapshot) => {
       await getDownloadURL(snapshot.ref).then((url) => {
@@ -64,8 +66,10 @@ function Profile() {
           setImage(undefined)
           refetch().catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
           reset()
+          setIsLoading(false)
         })
         .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
+        .finally(() => setIsLoading(false))
       });
     }).catch((err) => Notiflix.Notify.failure(err as string))
    
@@ -155,7 +159,7 @@ function Profile() {
             </div>
             <input type="text" {...register("title")} placeholder='Title...' className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none' />
             <textarea minLength={100} maxLength={2000} placeholder='Description' {...register("description")} className='border border-gray-500 rounded-md bg-inherit w-full my-2 text-md p-2 outline-none min-h-[300px] resize-none'></textarea>
-            <button className='w-full rounded-md outline-none bg-green-500 hover:bg-green-600 text-white py-3 text-sm md:text-lg'>Post</button>
+            <button disabled={isLoading} className='w-full rounded-md outline-none bg-green-500 hover:bg-green-600 text-white py-3 text-sm md:text-lg'>Post</button>
           </form>
         : 
         <div className="grid grid-cols-1 my-4">
