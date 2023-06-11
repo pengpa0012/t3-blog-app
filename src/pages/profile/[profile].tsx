@@ -32,6 +32,7 @@ function Profile() {
   const router = useRouter()
   const [tab, setTab] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const {user, isLoaded} = useUser()
   const [image, setImage] = useState<File | null>()
   const [previewIMG, setPreviewIMG] = useState("")
@@ -90,7 +91,7 @@ function Profile() {
       const deletedImg = ref(storage, `${getPost.image.split("/").at(-1)!.split("?")[0] ?? ""}`)
       deleteObject(deletedImg).catch((err: string) => Notiflix.Notify.failure(err))
     }
-
+    setIsDeleteLoading(true)
     deletePost.mutateAsync({
       id: postID
     })
@@ -99,8 +100,10 @@ function Profile() {
       setPostID("")
       refetch().catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
       setModal(false)
+      setIsDeleteLoading(false)
     })
     .catch((err: { message: string }) => Notiflix.Notify.failure(err.message))
+    .finally(() => setIsDeleteLoading(false))
   }
 
   return (
@@ -110,7 +113,7 @@ function Profile() {
           <p className='text-gray-200'>Are you sure you want to delete this post?</p>
           <div className="flex mt-4 justify-center gap-4">
             <button className='text-gray-300' onClick={() => setModal(false)}>Cancel</button>
-            <button className='text-white bg-red-500 p-2 rounded-md' onClick={(e) => onDeletePost(e)}>Delete</button>
+            <button disabled={isDeleteLoading} className='text-white bg-red-500 p-2 rounded-md' onClick={(e) => onDeletePost(e)}>Delete</button>
           </div>
         </div>
       </div>
